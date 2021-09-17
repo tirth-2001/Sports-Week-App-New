@@ -58,9 +58,11 @@ const Header = ({navigation}) => {
             size={27}
           />
           <Badge
-            style={{position: 'absolute', top: -5, left: 14, margin: 10}}
+            style={{position: 'absolute', top: -5, left: 12, margin: 10, borderWidth: 1, borderColor: "#fff"}}
             size={18}
             // visible={dataList.length > 0}
+
+
           >
             2
           </Badge>
@@ -112,7 +114,7 @@ const HomeScreen = ({navigation}) => {
           ))}
         </View>
 
-        <View style={{height: 100}}></View>
+        <View style={{height: 100, backgroundColor: '#fff'}}></View>
       </ScrollView>
       <RegisterFab navigation={navigation} />
     </>

@@ -1,9 +1,11 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {TransitionSpecs} from '@react-navigation/stack';
+import { TransitionSpecs } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 import HomeScreen from './screens/HomeScreen';
 import AdminPanel from './screens/AdminPanel';
@@ -41,9 +43,27 @@ const Routes = () => {
           <Stack.Screen
             name="Register"
             component={RegisterUser}
-            options={{title: 'Register Player'}}
+            options={{title: 'Register Player', headerTitleStyle: {
+              color: '#fff',
+            },
+            headerStyle: {
+              backgroundColor: '#2e3e7e',
+              },
+            headerTintColor: '#fff'
+            
+            }}
           />
-          <Stack.Screen name="Announcements" component={Announcements} />
+          <Stack.Screen name="Announcements" component={Announcements}
+            options={{
+              title: 'Announcements', headerTitleStyle: {
+              color: '#fff',
+            },
+            headerStyle: {
+              backgroundColor: '#2e3e7e',
+              },
+            headerTintColor: '#fff'
+            
+            }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </>
