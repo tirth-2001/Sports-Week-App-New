@@ -11,7 +11,7 @@ import {
 const GeneralCard = ({cardName, color, imageName, navigation}) => {
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('AdminPanel')}
+      onPress={() => navigation.navigate('WebViewGeneral')}
       activeOpacity={0.9}
       style={[styles.cardContainer, {backgroundColor: color}]}>
       <View style={[styles.section1]}>

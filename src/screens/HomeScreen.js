@@ -67,7 +67,7 @@ const Header = ({navigation}) => {
             2
           </Badge>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onShare} activeOpacity={0.5}>
+        <TouchableOpacity onPress={onShare} activeOpacity={0.5} style={{borderWidth: 0, width: 35, height: 45,}}>
           <Icon
             style={styles.logo}
             name={'share-social'}
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     margin: 15,
     position: 'absolute',
-    right: 10,
+    right: 6,
     top: 0,
   },
   logo: {

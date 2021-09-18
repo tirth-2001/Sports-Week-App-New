@@ -8,10 +8,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 
 import HomeScreen from './screens/HomeScreen';
-import AdminPanel from './screens/AdminPanel';
+import WebViewGeneral from './screens/WebViewGeneral';
 import SplashScreen from './screens/SplashScreen';
 import RegisterUser from './screens/RegisterUser';
 import Announcements from './screens/Announcements';
+import RegisterSuccess from './screens/RegisterSuccess';
 
 const Stack = createNativeStackNavigator();
 const Routes = () => {
@@ -39,7 +40,26 @@ const Routes = () => {
             }}
           />
 
-          <Stack.Screen name="AdminPanel" component={AdminPanel} />
+          <Stack.Screen
+            name="RegisterSuccess"
+            component={RegisterSuccess}
+            options={{
+              header: () => {
+                null;
+              },
+            }}
+          />
+
+          <Stack.Screen name="WebViewGeneral" component={WebViewGeneral}
+          options={{headerTitleStyle: {
+              color: '#fff',
+            },
+            headerStyle: {
+              backgroundColor: '#2e3e7e',
+              },
+            headerTintColor: '#fff'
+            
+            }}/>
           <Stack.Screen
             name="Register"
             component={RegisterUser}

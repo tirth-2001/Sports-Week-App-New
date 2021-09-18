@@ -7,7 +7,7 @@ import {
   BackHandler,
   Alert,
 } from 'react-native';
-// import { WebView } from 'react-native-webview';
+import { WebView } from 'react-native-webview';
 
 const backHandler = ({navigation, route}) => {
   BackHandler.addEventListener('hardwareBackPress', () => {
@@ -19,27 +19,11 @@ const backHandler = ({navigation, route}) => {
   });
 };
 
-const AdminPanel = ({navigation, route}) => {
-  useEffect(() => {
-    const backAction = () => {
-      if (route.name === 'HomeScreen') {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
+const WebViewGeneral = ({navigation, route}) => {
+  
 
   return (
-    <>
-      {/* <WebView style={styles.webViewStyle} source={{ uri: 'https://admin-panel-sports.vercel.app' }} /> */}
+    <View style={styles.container}>
       <Text
         style={{
           marginVertical: 30,
@@ -47,10 +31,13 @@ const AdminPanel = ({navigation, route}) => {
           fontWeight: 'bold',
           textAlign: 'center',
           color: 'red',
+          // borderWidth: 1,
         }}>
         Sports App
       </Text>
-    </>
+        <WebView style={styles.webViewStyle} source={{ uri: 'https://google.com' }} />
+      
+    </View>
   );
 };
 
@@ -59,6 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   text: {
     fontSize: 30,
@@ -66,8 +54,13 @@ const styles = StyleSheet.create({
   },
   webViewStyle: {
     // height: Dimensions.get('window').height,
-    // width: Dimensions.get('window').width,
+    width: Dimensions.get('window').width,
+    borderWidth: 1,
+    borderColor: '#000',
   },
+  webViewContainer: {
+    borderWidth: 1,
+  }
 });
 
-export default AdminPanel;
+export default WebViewGeneral;

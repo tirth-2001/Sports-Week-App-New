@@ -158,13 +158,8 @@ const RegisterUser = ({ navigation }) => {
 
     setTimeout(() => {
       console.log("Your details are saved.");
-      Snackbar.show({
-      text: "Your details are saved.",
-        duration: Snackbar.LENGTH_SHORT,
-            backgroundColor: '#4F8A10'
-
-      });
-      navigation.navigate('HomeScreen');
+      
+      navigation.navigate('RegisterSuccess');
     },1200)
   };
 
@@ -296,7 +291,7 @@ const RegisterUser = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ height: 80 }}></View>
+          <View style={{ height: 30 }}></View>
         </View>
       </ScrollView>
     </ScrollView>
