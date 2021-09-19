@@ -21,6 +21,7 @@
     "react-native-floating-action": "^1.22.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-multiple-select": "^0.5.7",
+    "react-native-onesignal": "^4.3.0",
     "react-native-paper": "^4.9.2",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.7.2",

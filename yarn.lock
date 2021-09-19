@@ -4303,7 +4303,7 @@
     "@formatjs/icu-messageformat-parser" "2.0.11"
     "tslib" "^2.1.0"
 
-"invariant@^2.2.4", "invariant@2.2.4":
+"invariant@^2.2.2", "invariant@^2.2.4", "invariant@2.2.4":
   "integrity" "sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA=="
   "resolved" "https://registry.npmjs.org/invariant/-/invariant-2.2.4.tgz"
   "version" "2.2.4"
@@ -6570,6 +6570,13 @@
   "version" "0.5.7"
   dependencies:
     "prop-types" "^15.7.2"
+
+"react-native-onesignal@^4.3.0":
+  "integrity" "sha512-Ancw3jimAR3unrgKNOFuXnkMlvp+nl1vHbseVPBAcjfN9CkdvbFdX7tVkj4pPW2jDn6urITefgRQq67wB7pD2A=="
+  "resolved" "https://registry.npmjs.org/react-native-onesignal/-/react-native-onesignal-4.3.0.tgz"
+  "version" "4.3.0"
+  dependencies:
+    "invariant" "^2.2.2"
 
 "react-native-paper@^4.9.2":
   "integrity" "sha512-J7FRsd0YblQawtuj9I46F//apZHadsCKk6jWpc6njFTYdgUeCdkR8KgEto7cp2WxbcGNELx7KGwPQ4zAgX746A=="
