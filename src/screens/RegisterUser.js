@@ -40,7 +40,7 @@ const RegisterUser = ({ navigation }) => {
     setPlayerGames(playerGames);
   };
 
-  const clearForm = () => {
+  const clearForm = (forSubmit) => {
     // const [clearConf, setClearConf] = useState(false);
 
     const clearDeatils = () => {
@@ -61,6 +61,7 @@ const RegisterUser = ({ navigation }) => {
       setPlayerGames([]);
 
       return (
+        !forSubmit &&
         Snackbar.show({
           text: "Form Data Cleared.",
           duration: Snackbar.LENGTH_SHORT,
@@ -68,7 +69,12 @@ const RegisterUser = ({ navigation }) => {
       )
     }
 
+    if (forSubmit) {
+      clearDeatils();
+    }
+
     return (
+      !forSubmit && (
       Alert.alert(
         "Confirm",
         "Are you sure, you want to clear the form?",
@@ -79,7 +85,7 @@ const RegisterUser = ({ navigation }) => {
         ],
         { cancelable: false }
       )
-
+      )
 
     )
   }
@@ -96,51 +102,52 @@ const RegisterUser = ({ navigation }) => {
 
   const formSubmit = () => {
     // check form validations and navigate
-
-    if (!block) {
-      return showError('Enter Block Name');
-    }
-    if (!flatNumber) {
-      return showError('Enter Flat Number');
-    }
-    if (isNaN(flatNumber)) {
-      return showError('Flat Number must be between 101 and 604');
-    }
-    if (flatNumber.length !== 3) {
-      return showError('Flat Number must be between 101 and 604');
-    }
-    if (parseInt(flatNumber) > 604 || parseInt(flatNumber) < 101) {
-      return showError('Flat Number must be between 101 and 604');
-    }
-    if (flatNumber[1] !== '0') {
-      return showError('Flat Number not entered correctly');
-    }
-    if (parseInt(flatNumber[0]) > 6 || parseInt(flatNumber[0]) < 1) {
-      return showError('Flat Number not entered correctly');
-    }
-    if (parseInt(flatNumber[2]) > 4 || parseInt(flatNumber[2]) < 1) {
-      return showError('Flat Number not entered correctly');
-    }
-    if (!playerName) {
-      return showError('Enter Player Name');
-    }
-    if (playerName.length < 3) {
-      return showError('Player Name must be at least 3 characters');
-    }
-    if (!playerAge) {
-      return showError('Enter Player Age');
-    }
-    if (isNaN(playerAge)) {
-      return showError('Player Age must be between 1 to 100');
-    }
-    if (parseInt(playerAge)< 1 || parseInt(playerAge) > 100) {
-      return showError('Player Age must be between 1 and 100');
-    }
-    if (!playerGender) {
-      return showError('Enter Block Name');
-    }
-    if (playerGames.length < 1) {
-      return showError('Select at least one Game');
+    if (3 > 2) {
+      if (!block) {
+        return showError('Enter Block Name');
+      }
+      if (!flatNumber) {
+        return showError('Enter Flat Number');
+      }
+      if (isNaN(flatNumber)) {
+        return showError('Flat Number must be between 101 and 604');
+      }
+      if (flatNumber.length !== 3) {
+        return showError('Flat Number must be between 101 and 604');
+      }
+      if (parseInt(flatNumber) > 604 || parseInt(flatNumber) < 101) {
+        return showError('Flat Number must be between 101 and 604');
+      }
+      if (flatNumber[1] !== '0') {
+        return showError('Flat Number not entered correctly');
+      }
+      if (parseInt(flatNumber[0]) > 6 || parseInt(flatNumber[0]) < 1) {
+        return showError('Flat Number not entered correctly');
+      }
+      if (parseInt(flatNumber[2]) > 4 || parseInt(flatNumber[2]) < 1) {
+        return showError('Flat Number not entered correctly');
+      }
+      if (!playerName) {
+        return showError('Enter Player Name');
+      }
+      if (playerName.length < 3) {
+        return showError('Player Name must be at least 3 characters');
+      }
+      if (!playerAge) {
+        return showError('Enter Player Age');
+      }
+      if (isNaN(playerAge)) {
+        return showError('Player Age must be between 1 to 100');
+      }
+      if (parseInt(playerAge) < 1 || parseInt(playerAge) > 100) {
+        return showError('Player Age must be between 1 and 100');
+      }
+      if (!playerGender) {
+        return showError('Enter Block Name');
+      }
+      if (playerGames.length < 1) {
+        return showError('Select at least one Game');
+      }
     }
 
     console.log("\n--------------------\n");
@@ -155,12 +162,11 @@ const RegisterUser = ({ navigation }) => {
 
     // save the above data to databases
 
-
     setTimeout(() => {
       console.log("Your details are saved.");
-      
+      clearForm(true);
       navigation.navigate('RegisterSuccess');
-    },1200)
+    },100)
   };
 
   return (
@@ -279,7 +285,7 @@ const RegisterUser = ({ navigation }) => {
                 styles.button,
                 { backgroundColor: '#fff', borderColor: '#2e3e7e' },
               ]}
-              onPress={() => clearForm()}>
+              onPress={() => clearForm(false)}>
               <Text style={[styles.buttonText, { color: '#2e3e7e' }]}>
                 Clear Form
               </Text>

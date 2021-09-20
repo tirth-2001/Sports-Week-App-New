@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -15,7 +15,7 @@ import Announcements from './screens/Announcements';
 import RegisterSuccess from './screens/RegisterSuccess';
 
 const Stack = createNativeStackNavigator();
-const Routes = () => {
+const Routes = ({navigation}) => {
   return (
     <>
       <NavigationContainer>
@@ -81,7 +81,7 @@ const Routes = () => {
             headerStyle: {
               backgroundColor: '#2e3e7e',
               },
-            headerTintColor: '#fff'
+              headerTintColor: '#fff',
             
             }}/>
         </Stack.Navigator>
