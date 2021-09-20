@@ -19,7 +19,7 @@ const Routes = () => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={'SplashScreen'}>
+        <Stack.Navigator initialRouteName={'HomeScreen'}>
           <Stack.Screen
             name="HomeScreen"
             component={HomeScreen}

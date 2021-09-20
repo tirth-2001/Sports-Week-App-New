@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,97 @@ import {
   Share,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Badge} from 'react-native-paper';
+import { Badge } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 
 import GeneralCard from '../components/GeneralCard';
-import {dataList} from '../utils/dataList';
+import { dataList } from '../utils/dataList';
+import {announceList} from '../utils/announceList';
 
-const Header = ({navigation}) => {
+const Header = ({ navigation }) => {
+
+  const [lastOpenVariable, setLastOpenVariable] = useState("");
+  const [showBadge, setShowBadge] = useState(true);
+  const [badgeValue, setBadgeValue] = useState(0);
+  const [flagValue, setFlagValue] = useState(false);
+  
+const storeLastOpenData = async (value) => {
+  try {
+    await AsyncStorage.setItem('lastAnOpen', value);
+
+    console.log('=> STORE - Last Open Announcement Page : ', value);
+  } catch (e) {
+    console.log(e);
+  }
+  }
+  
+  const setLastOpenData = async (value) => {
+  try {
+    await AsyncStorage.setItem('lastAnOpen', value);
+
+    console.log('=> SET - Last Open Announcement Page : ', value);
+    getLastOpenData();
+  } catch (e) {
+    console.log(e);
+  }
+}
+  
+  const getLastOpenData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('lastAnOpen')
+    if (value !== null) {
+      console.log('=> [HomeScreen] READ - Last Open Announcement Page : ', value);
+      setLastOpenVariable(value);
+    }
+    // else {
+    //   storeLastOpenData(moment().valueOf().toString());
+    // }
+  } catch(e) {
+        console.log(e);
+
+  }
+  }
+
+  const calculateCount = async () => {
+    const annouceListArray = await announceList.filter(item => {
+    return item.annTimeStamp > lastOpenVariable;
+    });
+    const count = annouceListArray.length;
+    console.log('=> CALCULATE - Count : ', count);
+    setBadgeValue(count);
+    // return count;
+  }
+  // make array of values which have their values greater than lastOpenVariable from annouceList
+  
+
+
+
+  useEffect(() => {
+    console.log("useEffect 1")
+    getLastOpenData();
+    // setLastOpenData(moment().valueOf().toString());
+   
+
+    // announceList.map((item, index) => {
+    //   console.log(item);
+    // });
+
+  }, [flagValue]);
+
+  useEffect(() => {
+console.log("\n--------------------\n");
+    //  setBadgeValue(calculateCount());
+    calculateCount();
+    console.log(badgeValue);
+    if (badgeValue > 0) {
+      setShowBadge(true);
+    } else {
+      setShowBadge(false);
+    }
+    console.log("\n--------------------\n");
+  }, [lastOpenVariable]);
+  
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -37,6 +122,7 @@ const Header = ({navigation}) => {
 
   return (
     <View style={styles.header}>
+      {setFlagValue(!flagValue)}
       <View style={styles.landscapeImage}>
         <Image
           source={require('../assets/images/landscape.png')}
@@ -59,12 +145,12 @@ const Header = ({navigation}) => {
           />
           <Badge
             style={{position: 'absolute', top: -5, left: 12, margin: 10, borderWidth: 1, borderColor: "#fff"}}
-            size={18}
-            // visible={dataList.length > 0}
+            size={20}
+            visible={showBadge}
 
 
           >
-            2
+            {badgeValue}
           </Badge>
         </TouchableOpacity>
         <TouchableOpacity onPress={onShare} activeOpacity={0.5} style={{borderWidth: 0, width: 35, height: 45,}}>
@@ -95,7 +181,35 @@ const RegisterFab = ({navigation}) => {
   );
 };
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
+  
+//   const storeLastOpenData = async (value) => {
+//   try {
+//     var lastOpenValue = await AsyncStorage.setItem('last', value);
+//     console.log('=> STORE - Last Open Announcement Page : ', lastOpenValue);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
+  
+//   const getLastOpenData = async () => {
+//   try {
+//     const value = await AsyncStorage.getItem('lastAnOpen')
+//     if (value !== null) {
+//     console.log('=> READ - Last Open Announcement Page : ', lastOpenValue);
+//       storeLastOpenData(value);
+//     }
+//   } catch(e) {
+//         console.log(e);
+
+//   }
+//   }
+
+//   useEffect(() => {
+//     getLastOpenData();
+
+//   }, []);
+
   return (
     <>
       <ScrollView>
