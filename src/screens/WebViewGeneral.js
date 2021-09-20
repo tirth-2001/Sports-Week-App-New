@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,33 +9,30 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
-const backHandler = ({navigation, route}) => {
-  BackHandler.addEventListener('hardwareBackPress', () => {
-    if (route.name === 'HomeScreen') {
-      return true;
-    } else {
-      return false;
-    }
-  });
-};
 
-const WebViewGeneral = ({navigation, route}) => {
+const WebViewGeneral = ({ navigation, route }) => {
   
+  //  useEffect(() => {
+  //     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true)
+  //     return () => backHandler.remove()
+  //   }, [])
+
+   React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: cardName,
+    });
+  }, [navigation]);
+
+
+  
+  const [webLink, setWebLink] = useState(route?.params.webLink);
+  const [cardName, setCardName] = useState(route?.params.cardName);
+
 
   return (
     <View style={styles.container}>
-      <Text
-        style={{
-          marginVertical: 30,
-          fontSize: 30,
-          fontWeight: 'bold',
-          textAlign: 'center',
-          color: 'red',
-          // borderWidth: 1,
-        }}>
-        Sports App
-      </Text>
-        <WebView style={styles.webViewStyle} source={{ uri: 'https://google.com' }} />
+      
+        <WebView style={styles.webViewStyle} source={webLink} />
       
     </View>
   );
@@ -47,6 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    marginTop: 0
   },
   text: {
     fontSize: 30,

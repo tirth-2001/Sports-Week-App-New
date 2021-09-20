@@ -50,6 +50,7 @@ const HomeScreen = ({ navigation, route }) => {
               color={item.color}
               imageName={item.imageName}
               navigation={navigation}
+              webLink={item.webLink}
             />
           ))}
         </View>

@@ -6,13 +6,19 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
+  Pressable
 } from 'react-native';
 
-const GeneralCard = ({cardName, color, imageName, navigation}) => {
+const GeneralCard = ({ webLink, cardName, color, imageName, navigation }) => {
+  
+ 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('WebViewGeneral')}
-      activeOpacity={0.9}
+      onPress={() => {
+        navigation.setOptions({ title: 'Updated!' });
+        navigation.navigate('WebViewGeneral', { webLink: webLink, cardName: cardName })
+      }}
+      activeOpacity={0.99}
       style={[styles.cardContainer, {backgroundColor: color}]}>
       <View style={[styles.section1]}>
         <ImageBackground
