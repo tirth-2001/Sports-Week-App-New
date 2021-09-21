@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -6,16 +6,19 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
-  Alert
+  Alert,
 } from 'react-native';
 
-import { RadioButton } from 'react-native-paper';
-import Snackbar from 'react-native-snackbar'
+import {RadioButton} from 'react-native-paper';
+import Snackbar from 'react-native-snackbar';
 import SelectMultiple from 'react-native-select-multiple';
-import { gamesList } from '../utils/gamesList';
+import {gamesList} from '../utils/gamesList';
 
-const RegisterUser = ({ navigation }) => {
+// Import API
+import {createPlayer} from '../admin/PlayerApi';
+import {getGames} from '../admin/GamesApi';
 
+const RegisterUser = ({navigation}) => {
   const [playerDetails, setPlayerDetails] = useState({
     block: '',
     flatNumber: '',
@@ -31,16 +34,51 @@ const RegisterUser = ({ navigation }) => {
   const [playerAge, setPlayerAge] = React.useState('');
   const [playerGender, setPlayerGender] = React.useState('Male');
   const [playerGames, setPlayerGames] = useState([]);
+  const [games, setGames] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const preloadGames = async () => {
+    setIsLoading(true);
+    await getGames().then(data => {
+      // console.log("API Data : ", data);
+      if (data.error) {
+        showError('Unable to fetch games');
+      } else {
+        // console.table(data);
+        setGames(data);
+        setIsLoading(false);
+      }
+    });
+  };
 
+  const newPlayerAdd = async () => {
+    // console.log("newPlayerAdd called");
+    //backend request fired
+    await createPlayer({
+      playerName,
+      games: playerGames.map(game => game.value),
+      homeNumber: block.toUpperCase() + flatNumber.toString(),
+      age: playerAge,
+      gender: playerGender,
+    }).then(data => {
+      if (data.error) {
+        showError('Error saving player ');
+      } else {
+        // showError('Player registered successfully ');
+      }
+    });
+  };
 
+  useEffect(() => {
+    preloadGames();
+  }, []);
 
   const onSelectionsChange = playerGames => {
     // selectedFruits is array of { label, value }
     setPlayerGames(playerGames);
   };
-
-  const clearForm = (forSubmit) => {
+  console.log(playerGames);
+  const clearForm = forSubmit => {
     // const [clearConf, setClearConf] = useState(false);
 
     const clearDeatils = () => {
@@ -50,7 +88,7 @@ const RegisterUser = ({ navigation }) => {
         name: '',
         age: '',
         gender: '',
-        players: []
+        players: [],
       });
 
       setBlock('A');
@@ -63,44 +101,44 @@ const RegisterUser = ({ navigation }) => {
       return (
         !forSubmit &&
         Snackbar.show({
-          text: "Form Data Cleared.",
+          text: 'Form Data Cleared.',
           duration: Snackbar.LENGTH_SHORT,
         })
-      )
-    }
+      );
+    };
 
     if (forSubmit) {
       clearDeatils();
     }
 
     return (
-      !forSubmit && (
+      !forSubmit &&
       Alert.alert(
-        "Confirm",
-        "Are you sure, you want to clear the form?",
+        'Confirm',
+        'Are you sure, you want to clear the form?',
         [
-          { text: 'No', onPress: () => console.log('No'), style: 'cancel' },
-          { text: 'Yes', onPress: () => { console.log('Yes'), clearDeatils() } },
-
+          {text: 'No', onPress: () => console.log('No'), style: 'cancel'},
+          {
+            text: 'Yes',
+            onPress: () => {
+              console.log('Yes'), clearDeatils();
+            },
+          },
         ],
-        { cancelable: false }
+        {cancelable: false},
       )
-      )
+    );
+  };
 
-    )
-  }
-
-  const showError = (txt) => {
+  const showError = txt => {
     console.log(txt);
     Snackbar.show({
       text: txt,
       duration: Snackbar.LENGTH_SHORT,
-      });
+    });
   };
 
-
-
-  const formSubmit = () => {
+  const formSubmit = async () => {
     // check form validations and navigate
     if (3 > 2) {
       if (!block) {
@@ -150,30 +188,31 @@ const RegisterUser = ({ navigation }) => {
       }
     }
 
-    console.log("\n--------------------\n");
-    console.log(`Block : ${block}`);
-    console.log(`Flat Number : ${flatNumber}`);
-    console.log(`Name : ${playerName}`);
-    console.log(`Gender : ${playerGender}`);
-    console.log(`Age : ${playerAge}`);
-    console.log(`Games : ${playerGames}`);
-    console.log("\n--------------------\n");
-
+    // console.log('\n--------------------\n');
+    // console.log(`Block : ${block}`);
+    // console.log(`Flat Number : ${flatNumber}`);
+    // console.log(`Name : ${playerName}`);
+    // console.log(`Gender : ${playerGender}`);
+    // console.log(`Age : ${playerAge}`);
+    // console.log(`Games : ${playerGames}`);
+    // console.log('\n--------------------\n');
 
     // save the above data to databases
 
+    await newPlayerAdd();
+
     setTimeout(() => {
-      console.log("Your details are saved.");
+      console.log('Your details are saved.');
       clearForm(true);
       navigation.navigate('RegisterSuccess');
-    },100)
+    }, 100);
   };
 
   return (
     <ScrollView style={styles.container}>
-      <ScrollView keyboardShouldPersistTaps='always' nestedScrollEnabled={true}>
-        <View style={{ marginLeft: 15, marginTop: 20 }}>
-          <View style={{ marginHorizontal: 8, marginVertical: 12 }}>
+      <ScrollView keyboardShouldPersistTaps="always" nestedScrollEnabled={true}>
+        <View style={{marginLeft: 15, marginTop: 20}}>
+          <View style={{marginHorizontal: 8, marginVertical: 12}}>
             <Text
               style={{
                 fontSize: 20,
@@ -183,13 +222,13 @@ const RegisterUser = ({ navigation }) => {
               }}>
               Welcome{' '}
             </Text>
-            <Text style={{ fontSize: 16, color: '#7f7f7f' }}>
+            <Text style={{fontSize: 16, color: '#7f7f7f'}}>
               Fill the below mentioned details to register a player.{' '}
             </Text>
           </View>
 
           {/* Radio Button */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.fieldLabel}> Select Block Name </Text>
             <RadioButton.Group
               onValueChange={newValue => setBlock(newValue)}
@@ -207,7 +246,7 @@ const RegisterUser = ({ navigation }) => {
           </View>
 
           {/* Flat Number */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.fieldLabel}> Flat Number </Text>
             <TextInput
               editable={true}
@@ -220,7 +259,7 @@ const RegisterUser = ({ navigation }) => {
           </View>
 
           {/* Name */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.fieldLabel}> Player Name </Text>
             <TextInput
               editable={true}
@@ -231,7 +270,7 @@ const RegisterUser = ({ navigation }) => {
             />
           </View>
           {/* Age */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.fieldLabel}> Player Age </Text>
             <TextInput
               editable={true}
@@ -243,7 +282,7 @@ const RegisterUser = ({ navigation }) => {
             />
           </View>
           {/* Gender */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.fieldLabel}> Player Gender </Text>
             <RadioButton.Group
               onValueChange={newValue => setPlayerGender(newValue)}
@@ -261,13 +300,16 @@ const RegisterUser = ({ navigation }) => {
           </View>
 
           {/* Games */}
-          <View style={{ marginTop: 20 }}>
+          <View style={{marginTop: 20}}>
             <Text style={styles.fieldLabel}>
               {' '}
               Select Games (you can select multiple games)
             </Text>
             <SelectMultiple
-              items={gamesList}
+              items={games.map(game => ({
+                label: game.name,
+                value: game.gameId,
+              }))}
               selectedItems={playerGames}
               onSelectionsChange={onSelectionsChange}
             />
@@ -283,10 +325,10 @@ const RegisterUser = ({ navigation }) => {
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: '#fff', borderColor: '#2e3e7e' },
+                {backgroundColor: '#fff', borderColor: '#2e3e7e'},
               ]}
               onPress={() => clearForm(false)}>
-              <Text style={[styles.buttonText, { color: '#2e3e7e' }]}>
+              <Text style={[styles.buttonText, {color: '#2e3e7e'}]}>
                 Clear Form
               </Text>
             </TouchableOpacity>
@@ -297,7 +339,7 @@ const RegisterUser = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ height: 30 }}></View>
+          <View style={{height: 30}}></View>
         </View>
       </ScrollView>
     </ScrollView>
