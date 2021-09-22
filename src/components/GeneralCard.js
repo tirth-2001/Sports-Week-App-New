@@ -6,21 +6,22 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
-  Pressable
+  Pressable,
 } from 'react-native';
 
-const GeneralCard = ({ webLink, cardName, color, imageName, navigation }) => {
-  
- 
+const GeneralCard = ({webLink, cardName, color, imageName, navigation}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.setOptions({ title: 'Updated!' });
-        navigation.navigate('WebViewGeneral', { webLink: webLink, cardName: cardName })
+        navigation.setOptions({title: 'Updated!'});
+        navigation.navigate('WebViewGeneral', {
+          webLink: webLink,
+          cardName: cardName,
+        });
       }}
-      activeOpacity={0.99}
+      activeOpacity={0.8}
       style={[styles.cardContainer, {backgroundColor: color}]}>
-      <View style={[styles.section1]}>
+      <View style={[styles.section1, {backgroundColor: color}]}>
         <ImageBackground
           source={imageName}
           style={styles.cardImage}
@@ -57,7 +58,6 @@ const styles = StyleSheet.create({
   section1: {
     width: '100%',
     height: 100,
-    backgroundColor: 'red',
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
   },

@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation, route }) => {
       <ScrollView>
         <View style={styles.container}>
           <Header navigation={navigation} route={route} />
-          <View style={{height: 60, borderWidth: 1}}></View>
+          <View style={{height: 60}}></View>
 
           {dataList.map((item, index) => (
             <GeneralCard
