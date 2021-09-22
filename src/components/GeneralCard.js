@@ -13,11 +13,15 @@ const GeneralCard = ({webLink, cardName, color, imageName, navigation}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.setOptions({title: 'Updated!'});
-        navigation.navigate('WebViewGeneral', {
-          webLink: webLink,
-          cardName: cardName,
-        });
+        if (cardName === 'Selfie Point') {
+          navigation.navigate('SelfiePoint');
+        } else {
+          navigation.setOptions({title: 'Updated!'});
+          navigation.navigate('WebViewGeneral', {
+            webLink: webLink,
+            cardName: cardName,
+          });
+        }
       }}
       activeOpacity={0.8}
       style={[styles.cardContainer, {backgroundColor: color}]}>

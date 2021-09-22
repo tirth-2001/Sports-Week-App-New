@@ -3,9 +3,8 @@ import {View, Text, StyleSheet, TouchableOpacity, Button} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { TransitionSpecs } from '@react-navigation/stack';
+import {TransitionSpecs} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-
 
 import HomeScreen from './screens/HomeScreen';
 import WebViewGeneral from './screens/WebViewGeneral';
@@ -13,6 +12,7 @@ import SplashScreen from './screens/SplashScreen';
 import RegisterUser from './screens/RegisterUser';
 import Announcements from './screens/Announcements';
 import RegisterSuccess from './screens/RegisterSuccess';
+import SelfiePoint from './screens/SelfiePoint';
 
 const Stack = createNativeStackNavigator();
 const Routes = ({navigation}) => {
@@ -50,40 +50,62 @@ const Routes = ({navigation}) => {
             }}
           />
 
-          <Stack.Screen name="WebViewGeneral" component={WebViewGeneral}
-          options={{headerTitleStyle: {
-              color: '#fff',
-            },
-            headerStyle: {
-              backgroundColor: '#2e3e7e',
+          <Stack.Screen
+            name="WebViewGeneral"
+            component={WebViewGeneral}
+            options={{
+              headerTitleStyle: {
+                color: '#fff',
               },
-            headerTintColor: '#fff'
-            
-            }}/>
+              headerStyle: {
+                backgroundColor: '#2e3e7e',
+              },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen
             name="Register"
             component={RegisterUser}
-            options={{title: 'Register Player', headerTitleStyle: {
-              color: '#fff',
-            },
-            headerStyle: {
-              backgroundColor: '#2e3e7e',
-              },
-            headerTintColor: '#fff'
-            
-            }}
-          />
-          <Stack.Screen name="Announcements" component={Announcements}
             options={{
-              title: 'Announcements', headerTitleStyle: {
-              color: '#fff',
-            },
-            headerStyle: {
-              backgroundColor: '#2e3e7e',
+              title: 'Register Player',
+              headerTitleStyle: {
+                color: '#fff',
+              },
+              headerStyle: {
+                backgroundColor: '#2e3e7e',
               },
               headerTintColor: '#fff',
-            
-            }}/>
+            }}
+          />
+
+          <Stack.Screen
+            name="SelfiePoint"
+            component={SelfiePoint}
+            options={{
+              title: 'Selfie Point',
+              headerTitleStyle: {
+                color: '#fff',
+              },
+              headerStyle: {
+                backgroundColor: '#2e3e7e',
+              },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="Announcements"
+            component={Announcements}
+            options={{
+              title: 'Announcements',
+              headerTitleStyle: {
+                color: '#fff',
+              },
+              headerStyle: {
+                backgroundColor: '#2e3e7e',
+              },
+              headerTintColor: '#fff',
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

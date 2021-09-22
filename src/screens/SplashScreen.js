@@ -41,7 +41,7 @@ const SplashScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Welcome to</Text>
+          <Text style={styles.text}>Welcome to App</Text>
           <View style={styles.landscapeImage}>
             <Image
               source={require('../assets/images/landscape.png')}

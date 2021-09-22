@@ -24,6 +24,7 @@
     "react-native-code-push": "^7.0.3",
     "react-native-floating-action": "^1.22.0",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-image-picker": "^4.1.1",
     "react-native-multiple-select": "^0.5.7",
     "react-native-onesignal": "^4.3.0",
     "react-native-paper": "^4.9.2",
