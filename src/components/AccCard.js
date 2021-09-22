@@ -9,11 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const AccCard = ({ann, seq, len}) => {
-  const {title, subtitle, annImage, publishedDate} = ann || [];
-  // console.log('Title: ' + title);
-  console.log(seq, len);
-
+const AccCard = () => {
   return (
     <View
       style={{
@@ -36,7 +32,7 @@ const AccCard = ({ann, seq, len}) => {
       <View style={{display: 'flex', flexDirection: 'row'}}>
         <View>
           <Image
-            source={{uri: annImage}}
+            source={require('../assets/images/tt.jpg')}
             style={{width: 120, height: 70, borderRadius: 25}}
             resizeMode="center"
           />
@@ -50,18 +46,18 @@ const AccCard = ({ann, seq, len}) => {
                 width: Dimensions.get('window').width / 2 + 8,
                 textAlign: 'justify',
               }}>
-              {title}
+              Today for Table Tennis
             </Text>
             <Text
               style={{
                 fontSize: 15,
                 marginTop: 8,
                 width: Dimensions.get('window').width / 2 + 8,
-                height: 58,
                 textAlign: 'justify',
                 color: '#4f4f4f',
               }}>
-              {subtitle}
+              Today be present at 8:30pm for Table Tennis game and encourage the
+              players.
             </Text>
           </View>
         </View>
@@ -84,12 +80,12 @@ const AccCard = ({ann, seq, len}) => {
               marginLeft: 2,
             }}>
             {' '}
-            {moment(parseInt(publishedDate)).format('hh:mm A')}
+            6:30 PM{' '}
           </Text>
         </View>
         <Text style={{fontSize: 14, color: '#7f7f7f', marginHorizontal: 10}}>
           {' '}
-          {moment(parseInt(publishedDate)).format('DD-MM-YYYY')}
+          12/09/21{' '}
         </Text>
       </View>
     </View>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Sports Week</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">XZWNtCB8sm7NKpb6mQSoRa67KYGEwdFkoWEN8</string>
 </resources>

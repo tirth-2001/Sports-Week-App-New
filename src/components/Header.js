@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,95 +8,71 @@ import {
   Image,
   ScrollView,
   Share,
-  Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Badge} from 'react-native-paper';
+import { Badge } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 
 import {announceList} from '../utils/announceList';
 
-// Import API Calls
-import {getAnnouncements} from '../admin/AnnApi';
 
-const Header = ({route, navigation}) => {
-  const [lastOpenVariable, setLastOpenVariable] = useState('');
-  const [lastOpenVariable1, setLastOpenVariable1] = useState('');
+
+const Header = ({ route, navigation }) => {
+
+  const [lastOpenVariable, setLastOpenVariable] = useState("");
+  const [lastOpenVariable1, setLastOpenVariable1] = useState("");
   const [showBadge, setShowBadge] = useState(true);
   const [badgeValue, setBadgeValue] = useState(0);
   const [flagValue, setFlagValue] = useState(true);
-  const [dummy, setDummy] = useState('A');
-  const [isLoading, setIsLoading] = useState(false);
-  const [announcements, setAnnouncements] = useState([]);
-  const [tempValue, setTempValue] = useState(false);
+  const [dummy, setDummy] = useState("A");
 
-  const preloadAnnouncements = () => {
-    setIsLoading(true);
-    getAnnouncements().then(data => {
-      // console.log("API Data : ", data);
-      if (data.error) {
-        Snackbar.show('Error fetching Announcements', 'Try again');
-      } else {
-        // console.log(data);
-        const arr = data.filter(ann => ann.isPublished && ann.publishedDate);
-        setAnnouncements(arr);
-        console.log('Ann Length', announcements.length);
-        setIsLoading(false);
-      }
-    });
-  };
-
+  
   const getLastOpenData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('lastAnOpen');
-      if (value !== null) {
-        // console.log(
-        //   '=> [HomeScreen] READ - Last Open Announcement Page : ',
-        //   value,
-        // );
-        setLastOpenVariable(value);
-      }
-      // else {
-      //   storeLastOpenData(moment().valueOf().toString());
-      // }
-    } catch (e) {
-      console.log(e);
+  try {
+    const value = await AsyncStorage.getItem('lastAnOpen')
+    if (value !== null) {
+      console.log('=> [HomeScreen] READ - Last Open Announcement Page : ', value);
+      setLastOpenVariable(value);
     }
-  };
+    // else {
+    //   storeLastOpenData(moment().valueOf().toString());
+    // }
+  } catch(e) {
+        console.log(e);
 
-  const calculateCount = () => {
-    const annouceListArray =
-      announcements.length > 0 &&
-      announcements
-        // .filter(ann => ann.isPublished && ann.publishedDate)
-        .filter(item => {
-          return item.publishedDate > lastOpenVariable;
-        });
+  }
+  }
 
+
+  const calculateCount = async () => {
+    const annouceListArray = await announceList.filter(item => {
+    return item.annTimeStamp > lastOpenVariable;
+    });
     const count = annouceListArray.length;
-
-    setBadgeValue(count);
     console.log('=> CALCULATE - Count : ', count);
+    setBadgeValue(count);
     // return count;
-  };
+  }
 
   useEffect(() => {
-    console.log('useEffect 1');
+    console.log("useEffect 1")
     getLastOpenData();
-    preloadAnnouncements();
+
   }, [route?.params]);
 
   useEffect(() => {
-    console.log('useEffect 2');
-    getLastOpenData();
-    // preloadAnnouncements();
-    console.log('\n--------------------\n');
+console.log("\n--------------------\n");
     //  setBadgeValue(calculateCount());
     calculateCount();
-    console.log('BadgeValue', badgeValue);
-  }, [lastOpenVariable, announcements]);
-
+    console.log(badgeValue);
+    if (badgeValue > 0) {
+      setShowBadge(true);
+    } else {
+      setShowBadge(false);
+    }
+  }, [lastOpenVariable]);
+  
   const onShare = async () => {
     try {
       const result = await Share.share({
@@ -118,11 +94,13 @@ const Header = ({route, navigation}) => {
 
   return (
     <View style={styles.header}>
+     
       <View style={styles.landscapeImage}>
         <Image
           source={require('../assets/images/landscape.png')}
           style={styles.image2}
         />
+        
       </View>
       <View style={styles.logoContainer}>
         <TouchableOpacity
@@ -141,23 +119,16 @@ const Header = ({route, navigation}) => {
             size={27}
           />
           <Badge
-            style={{
-              position: 'absolute',
-              top: -5,
-              left: 12,
-              margin: 10,
-              borderWidth: 1,
-              borderColor: '#fff',
-            }}
+            style={{position: 'absolute', top: -5, left: 12, margin: 10, borderWidth: 1, borderColor: "#fff"}}
             size={20}
-            visible={badgeValue > 0}>
+            visible={showBadge}
+
+
+          >
             {badgeValue}
           </Badge>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onShare}
-          activeOpacity={0.5}
-          style={{borderWidth: 0, width: 35, height: 45}}>
+        <TouchableOpacity onPress={onShare} activeOpacity={0.5} style={{borderWidth: 0, width: 35, height: 45,}}>
           <Icon
             style={styles.logo}
             name={'share-social'}
@@ -170,8 +141,9 @@ const Header = ({route, navigation}) => {
   );
 };
 
+
 const styles = StyleSheet.create({
-  header: {
+    header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -197,6 +169,7 @@ const styles = StyleSheet.create({
     width: 250,
     borderWidth: 1,
   },
-});
+})
+
 
 export default Header;
