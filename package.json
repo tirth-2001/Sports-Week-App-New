@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.8",
     "@react-native-clipboard/clipboard": "^1.8.4",
+    "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
@@ -31,8 +32,10 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.7.2",
     "react-native-select-multiple": "^2.1.0",
+    "react-native-share": "^7.1.1",
     "react-native-snackbar": "^2.4.0",
     "react-native-vector-icons": "^8.1.0",
+    "react-native-view-shot": "^3.1.2",
     "react-native-webview": "^11.13.0",
     "shortid": "^2.2.16",
     "uuid": "^8.3.2"

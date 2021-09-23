@@ -20,7 +20,7 @@ const SplashScreen = ({navigation}) => {
     setTimeout(() => {
       // navigation.navigate('HomeScreen');
       setFlag(true);
-    }, 2800);
+    }, 800);
   }, []);
 
   const image = {

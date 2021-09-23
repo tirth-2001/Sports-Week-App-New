@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -11,41 +11,139 @@ import {
   ActivityIndicator,
   Image,
   ImageBackground,
+  PermissionsAndroid,
+  Platform,
 } from 'react-native';
+
+import {captureRef} from 'react-native-view-shot';
+import CameraRoll from '@react-native-community/cameraroll';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-// import {MaskImageView} from 'react-native-mask-image';
+import Share from 'react-native-share';
 
 const MaskImage = ({image3}) => {
+  const viewRef = useRef();
+
+  // Get android permission
+  const getPermissionAndroid = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Image Download Permission',
+          message: 'Your permission is required to save images to your device',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        return true;
+      }
+      Alert.alert(
+        '',
+        'Your permission is required to save images to your device',
+        [{text: 'OK', onPress: () => {}}],
+        {cancelable: false},
+      );
+    } catch (err) {
+      // handle error as you please
+      console.log('err', err);
+    }
+  };
+
+  // download image to local system
+  const downloadImage = async () => {
+    try {
+      // react-native-view-shot captures component
+      const uri = await captureRef(viewRef, {
+        format: 'png',
+        quality: 1,
+      });
+
+      if (Platform.OS === 'android') {
+        const granted = await getPermissionAndroid();
+        if (!granted) {
+          return;
+        }
+      }
+
+      // camera roll saves image
+      const image = CameraRoll.save(uri, 'photo');
+      if (image) {
+        Alert.alert(
+          '',
+          'Image saved successfully.',
+          [{text: 'OK', onPress: () => {}}],
+          {cancelable: false},
+        );
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  // share the image reference
+  const shareImage = async () => {
+    try {
+      // capture component
+      const uri = await captureRef(viewRef, {
+        format: 'png',
+        quality: 1,
+      });
+
+      // share
+      const shareResponse = await Share.open({url: uri})
+        .then(response => {
+          console.log('Share response', response);
+        })
+        .catch(error => {
+          console.log('Share error', error);
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   console.log('Mask Image', image3);
   const image1 =
     'https://firebasestorage.googleapis.com/v0/b/ssip-final.appspot.com/o/Sports_Week%2FIMG_20210816_155623_1629218236127.jpg?alt=media&token=122ff9f3-abda-4c84-9818-e77d8195a102';
   return (
-    <View
-      style={{
-        // borderWidth: 1,
-        marginTop: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 8,
-      }}>
-      <ImageBackground
-        source={{uri: image3 ? image3 : image1}}
-        resizeMode="contain"
-        imageStyle="contain"
-        style={{height: 300, width: 300}}>
-        <View style={{borderRadius: 8}}>
-          {/* <Text style={styles.text}>Inside</Text> */}
-          <Image
-            source={{
-              uri: 'https://firebasestorage.googleapis.com/v0/b/ssip-final.appspot.com/o/Sports_Week%2FPicture1.png?alt=media&token=93858e19-3325-463b-a204-39e5304beefd',
-            }}
-            style={{height: 300, width: 300, borderRadius: 8}}
-          />
-        </View>
-      </ImageBackground>
-    </View>
+    <>
+      <View
+        style={{
+          // borderWidth: 1,
+          marginTop: 50,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 8,
+        }}
+        ref={viewRef}
+        collapsable={false}>
+        <ImageBackground
+          source={{uri: image3 ? image3 : image1}}
+          resizeMode="cover"
+          imageStyle="cover"
+          style={{height: 350, width: 350}}>
+          <View style={{borderRadius: 8}}>
+            {/* <Text style={styles.text}>Inside</Text> */}
+            <Image
+              source={require('../assets/images/template1.png')}
+              style={{height: 350, width: 350, borderRadius: 8}}
+            />
+          </View>
+        </ImageBackground>
+      </View>
+
+      <View style={[styles.buttonContainer, {borderWidth: 0}]}>
+        <TouchableOpacity style={styles.button2} onPress={downloadImage}>
+          <Text style={styles.buttonText2}> Download </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button1} onPress={shareImage}>
+          <Text style={styles.buttonText1}> Share Image </Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 
@@ -136,6 +234,7 @@ const ImageUploader = ({navigation}) => {
               <>
                 <Image source={{uri: image}} style={[styles.imageUploadBox]} />
                 <TouchableOpacity
+                  activeOpacity={0.7}
                   style={{
                     height: 30,
                     width: 120,
