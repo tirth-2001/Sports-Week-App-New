@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,14 +10,16 @@ import {
   Share,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Badge } from 'react-native-paper';
+import {Badge} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 
 import GeneralCard from '../components/GeneralCard';
-import { dataList } from '../utils/dataList';
-import { announceList } from '../utils/announceList';
+import {dataList} from '../utils/dataList';
+import {announceList} from '../utils/announceList';
 import Header from '../components/Header';
+
+import {getWebviews} from '../admin/WebviewApi';
 
 const RegisterFab = ({navigation}) => {
   return (
@@ -34,7 +36,29 @@ const RegisterFab = ({navigation}) => {
   );
 };
 
-const HomeScreen = ({ navigation, route }) => {
+const HomeScreen = ({navigation, route}) => {
+  const [webviews, setWebviews] = useState([]);
+
+  const preloadWebviews = async () => {
+    await getWebviews().then(data => {
+      console.log('Webview API Data : ', data);
+      if (data.error) {
+        toast('Unable to fetch webviews', {
+          type: 'error',
+        });
+      } else {
+        // sort data by homeNumber key
+        // const sortedData = data.sort((a, b) =>
+        //   a.homeNumber > b.homeNumber ? 1 : -1
+        // );
+        setWebviews(data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    preloadWebviews();
+  }, []);
 
   return (
     <>
@@ -43,12 +67,12 @@ const HomeScreen = ({ navigation, route }) => {
           <Header navigation={navigation} route={route} />
           <View style={{height: 60}}></View>
 
-          {dataList.map((item, index) => (
+          {webviews.map((item, index) => (
             <GeneralCard
               key={index}
               cardName={item.cardName}
-              color={item.color}
-              imageName={item.imageName}
+              color={item.colorCode}
+              imageName={item.webImage}
               navigation={navigation}
               webLink={item.webLink}
             />

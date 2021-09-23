@@ -30,7 +30,7 @@ const WebViewGeneral = ({navigation, route}) => {
     <View style={styles.container}>
       <WebView
         style={styles.webViewStyle}
-        source={webLink}
+        source={{uri: webLink}}
         injectedJavaScript={INJECTEDJAVASCRIPT}
       />
     </View>

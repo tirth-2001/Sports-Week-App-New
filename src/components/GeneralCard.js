@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 const GeneralCard = ({webLink, cardName, color, imageName, navigation}) => {
+  console.log(webLink, '->', cardName);
   return (
     <TouchableOpacity
       onPress={() => {
@@ -27,7 +28,7 @@ const GeneralCard = ({webLink, cardName, color, imageName, navigation}) => {
       style={[styles.cardContainer, {backgroundColor: color}]}>
       <View style={[styles.section1, {backgroundColor: color}]}>
         <ImageBackground
-          source={imageName}
+          source={{uri: imageName}}
           style={styles.cardImage}
           imageStyle={{
             borderTopLeftRadius: 12,
