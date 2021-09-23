@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,16 +8,46 @@ import {
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AccCard = ({ann, seq, len}) => {
+const AccCard = ({ann, seq, len, showNewBadge, lastOpenValue}) => {
   const {title, subtitle, annImage, publishedDate} = ann || [];
-  // console.log('Title: ' + title);
-  console.log(seq, len);
+  // const [lastOpenValue, setLastOpenValue] = useState();
+  var showBadge = publishedDate > lastOpenValue;
+  console.log(
+    `Published Date : ${publishedDate} |||| lastOpenValue : ${lastOpenValue}  ==> publish>lastOpen : ${showBadge}`,
+  );
+  // console.log('Show Badge: ' + showNewBadge);
+  // console.log(seq, len);
+
+  const getLastOpenData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('lastAnOpen');
+      if (value !== null) {
+        console.log(
+          '[Ann Card] => READ - Last Open Announcement Page : ',
+          value,
+        );
+        // setLastOpenValue(value);
+        // console.log('=> [Ann Card] Last Open Value', lastOpenValue);
+      }
+      // else {
+      //   storeLastOpenData(moment().valueOf().toString());
+      // }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log('useEffect 5');
+  //   getLastOpenData();
+  // }, []);
 
   return (
     <View
       style={{
-        height: 140,
+        height: showBadge ? 160 : 140,
         width: Dimensions.get('window').width - 20,
         padding: 10,
         marginHorizontal: 10,
@@ -27,12 +57,28 @@ const AccCard = ({ann, seq, len}) => {
         elevation: 7,
         backgroundColor: '#fff',
         shadowOffset: {width: 0, height: 10},
-        shadowColor: '#000',
+        shadowColor: '#333',
         shadowOpacity: 1.0,
         shadowRadius: 22,
-        // borderWidth: 1,
+        borderWidth: 0,
         borderColor: '#ddd',
       }}>
+      {showBadge && (
+        <View
+          style={{
+            width: '100%',
+            height: 16,
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            marginBottom: 3,
+          }}>
+          <Image
+            source={require('../assets/images/new_badge.png')}
+            style={{width: 50, height: 23, borderRadius: 0}}
+          />
+        </View>
+      )}
+
       <View style={{display: 'flex', flexDirection: 'row'}}>
         <View>
           <Image
@@ -66,6 +112,7 @@ const AccCard = ({ann, seq, len}) => {
           </View>
         </View>
       </View>
+
       <View
         style={{
           flexDirection: 'row',

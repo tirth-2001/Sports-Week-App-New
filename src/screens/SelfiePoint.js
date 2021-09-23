@@ -10,10 +10,44 @@ import {
   Alert,
   ActivityIndicator,
   Image,
+  ImageBackground,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {MaskImageView} from 'react-native-mask-image';
+
+const MaskImage = ({image3}) => {
+  console.log('Mask Image', image3);
+  const image1 =
+    'https://firebasestorage.googleapis.com/v0/b/ssip-final.appspot.com/o/Sports_Week%2FIMG_20210816_155623_1629218236127.jpg?alt=media&token=122ff9f3-abda-4c84-9818-e77d8195a102';
+  return (
+    <View
+      style={{
+        // borderWidth: 1,
+        marginTop: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8,
+      }}>
+      <ImageBackground
+        source={{uri: image3 ? image3 : image1}}
+        resizeMode="contain"
+        imageStyle="contain"
+        style={{height: 300, width: 300}}>
+        <View style={{borderRadius: 8}}>
+          {/* <Text style={styles.text}>Inside</Text> */}
+          <Image
+            source={{
+              uri: 'https://firebasestorage.googleapis.com/v0/b/ssip-final.appspot.com/o/Sports_Week%2FPicture1.png?alt=media&token=93858e19-3325-463b-a204-39e5304beefd',
+            }}
+            style={{height: 300, width: 300, borderRadius: 8}}
+          />
+        </View>
+      </ImageBackground>
+    </View>
+  );
+};
 
 const ImageUploader = ({navigation}) => {
   const [image, setImage] = useState(null);
@@ -89,96 +123,100 @@ const ImageUploader = ({navigation}) => {
   };
 
   return (
-    <View style={styles.imageUploadContainer}>
-      <Text style={styles.imageUploadTitle}> Upload Your Selfie Image </Text>
-      <Text style={styles.imageUploadSubtitle}>
-        {' '}
-        Note : Make sure your face is in center of image.
-      </Text>
-      <View style={styles.imageUploadOuter}>
-        <View style={styles.imageBox}>
-          {image ? (
-            <>
-              <Image source={{uri: image}} style={[styles.imageUploadBox]} />
-              <TouchableOpacity
-                style={{
-                  height: 30,
-                  width: 120,
-                  borderColor: '#D8000C',
-                  borderWidth: 1,
-                  marginTop: 15,
-                  justifyContent: 'center',
-                  borderRadius: 10,
-                }}
-                onPress={() => {
-                  setImage('');
-                  setImageUploading(false);
-                  setUploadStatus(null);
-                }}>
-                <Text
+    <>
+      <View style={styles.imageUploadContainer}>
+        <Text style={styles.imageUploadTitle}> Upload Your Selfie Image </Text>
+        <Text style={styles.imageUploadSubtitle}>
+          {' '}
+          Note : Make sure your face is in center of image.
+        </Text>
+        <View style={styles.imageUploadOuter}>
+          <View style={styles.imageBox}>
+            {image ? (
+              <>
+                <Image source={{uri: image}} style={[styles.imageUploadBox]} />
+                <TouchableOpacity
                   style={{
-                    color: '#D8000C',
-                    fontSize: 14,
-                    textAlign: 'center',
+                    height: 30,
+                    width: 120,
+                    borderColor: '#D8000C',
+                    borderWidth: 1,
+                    marginTop: 15,
+                    justifyContent: 'center',
+                    borderRadius: 10,
+                  }}
+                  onPress={() => {
+                    setImage('');
+                    setImageUploading(false);
+                    setUploadStatus(null);
                   }}>
-                  Remove Image
-                </Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              {imageUploading ? (
-                <View style={[styles.imageUploadBox, {borderStyle: 'dashed'}]}>
-                  <ActivityIndicator size="large" color="#7f7f7f" />
-                  <Text style={styles.imageUploadText}>
-                    Image Upload in process...
+                  <Text
+                    style={{
+                      color: '#D8000C',
+                      fontSize: 14,
+                      textAlign: 'center',
+                    }}>
+                    Remove Image
                   </Text>
-                  {setTimeout(setImageUploading(false), 2000)}
-                </View>
-              ) : (
-                <>
-                  <TouchableOpacity
-                    style={[styles.imageUploadBox, {borderStyle: 'dashed'}]}
-                    onPress={() =>
-                      Alert.alert(
-                        '',
-                        'Choose Your Method to upload image',
-                        [
-                          {
-                            text: 'Camera',
-                            onPress: () => {
-                              chooseImage();
-                            },
-                          },
-                          {
-                            text: 'Gallery',
-                            onPress: () => {
-                              chooseFromGallery();
-                            },
-                          },
-                        ],
-                        {
-                          cancelable: true,
-                        },
-                      )
-                    }>
-                    <Icon
-                      name={'cloud-upload-outline'}
-                      color="#7f7f7f"
-                      size={39}
-                    />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                {imageUploading ? (
+                  <View
+                    style={[styles.imageUploadBox, {borderStyle: 'dashed'}]}>
+                    <ActivityIndicator size="large" color="#7f7f7f" />
                     <Text style={styles.imageUploadText}>
-                      {' '}
-                      Click to Upload{' '}
+                      Image Upload in process...
                     </Text>
-                  </TouchableOpacity>
-                </>
-              )}
-            </>
-          )}
+                    {setTimeout(setImageUploading(false), 2000)}
+                  </View>
+                ) : (
+                  <>
+                    <TouchableOpacity
+                      style={[styles.imageUploadBox, {borderStyle: 'dashed'}]}
+                      onPress={() =>
+                        Alert.alert(
+                          'Upload Image',
+                          '\nChoose Your Method to upload image\n',
+                          [
+                            {
+                              text: 'Camera',
+                              onPress: () => {
+                                chooseImage();
+                              },
+                            },
+                            {
+                              text: 'Gallery',
+                              onPress: () => {
+                                chooseFromGallery();
+                              },
+                            },
+                          ],
+                          {
+                            cancelable: true,
+                          },
+                        )
+                      }>
+                      <Icon
+                        name={'cloud-upload-outline'}
+                        color="#7f7f7f"
+                        size={39}
+                      />
+                      <Text style={styles.imageUploadText}>
+                        {' '}
+                        Click to Upload{' '}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+              </>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+      <MaskImage image3={image} />
+    </>
   );
 };
 
@@ -186,53 +224,55 @@ const SelfiePoint = ({navigation}) => {
   const [addressOption, setAddressOption] = useState('0');
 
   return (
-    <View style={styles.container}>
-      <View style={styles.first}></View>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.first}></View>
 
-      <View style={styles.main}>
-        <ImageUploader navigation={navigation} />
+        <View style={styles.main}>
+          <ImageUploader navigation={navigation} />
 
-        <View style={[styles.buttonContainer, {borderWidth: 0}]}>
-          <TouchableOpacity
-            style={styles.button2}
-            onPress={() =>
-              Alert.alert(
-                'Confirm',
-                'Are you sure you want to exit?',
-                [
-                  {
-                    text: 'No',
-                    // onPress: () => {
-                    //   chooseImage();
-                    // },
-                  },
-                  {
-                    text: 'Yes',
-                    onPress: () => {
-                      //   ImageUploader.setImage('');
-                      navigation.navigate('HomeScreen');
+          <View style={[styles.buttonContainer, {borderWidth: 0}]}>
+            <TouchableOpacity
+              style={styles.button2}
+              onPress={() =>
+                Alert.alert(
+                  'Confirm',
+                  'Are you sure you want to exit?',
+                  [
+                    {
+                      text: 'No',
+                      // onPress: () => {
+                      //   chooseImage();
+                      // },
                     },
+                    {
+                      text: 'Yes',
+                      onPress: () => {
+                        //   ImageUploader.setImage('');
+                        navigation.navigate('HomeScreen');
+                      },
+                    },
+                  ],
+                  {
+                    cancelable: true,
                   },
-                ],
-                {
-                  cancelable: true,
-                },
-              )
-            }>
-            <Text style={styles.buttonText2}> Cancel </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button1}
-            onPress={() => {
-              alert('Submit');
-            }}>
-            <Text style={styles.buttonText1}> Save Image </Text>
-          </TouchableOpacity>
-        </View>
+                )
+              }>
+              <Text style={styles.buttonText2}> Cancel </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button1}
+              onPress={() => {
+                alert('Submit');
+              }}>
+              <Text style={styles.buttonText1}> Save Image </Text>
+            </TouchableOpacity>
+          </View>
 
-        {/* <View style={{height: 50}} /> */}
+          <View style={{height: 50}} />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -242,6 +282,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: '#fff',
+  },
+  container1: {
+    // flex: 1,
+    // justifyContent: 'flex-start',
+    // alignItems: 'flex-start',
+    // backgroundColor: '#fff',
   },
   first: {
     height: 30,

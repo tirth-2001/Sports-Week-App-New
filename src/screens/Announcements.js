@@ -25,6 +25,7 @@ const Announcements = ({navigation, route}) => {
   const [para1, setPara1] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
+  const [lastOpenValue, setLastOpenValue] = useState();
   // console.log("Route",route)
 
   const preloadAnnouncements = async () => {
@@ -58,6 +59,8 @@ const Announcements = ({navigation, route}) => {
       const value = await AsyncStorage.getItem('lastAnOpen');
       if (value !== null) {
         console.log('=> READ - Last Open Announcement Page : ', value);
+        setLastOpenValue(value);
+        // console.log('=> Last Open Value', lastOpenValue);
       }
       // else {
       //   storeLastOpenData(moment().valueOf().toString());
@@ -79,9 +82,10 @@ const Announcements = ({navigation, route}) => {
   };
 
   useEffect(() => {
+    getLastOpenData();
     preloadAnnouncements();
     filterAnnouncements();
-    setLastOpenData(moment().valueOf().toString());
+    // setLastOpenData(moment().valueOf().toString());
   }, []);
 
   // useEffect(() => {
@@ -101,11 +105,12 @@ const Announcements = ({navigation, route}) => {
       headerLeft: () => (
         <TouchableOpacity
           style={{marginRight: 30}}
-          onPress={() =>
+          onPress={() => {
+            setLastOpenData(moment().valueOf().toString());
             navigation.navigate('HomeScreen', {
               dummyValue: 9,
-            })
-          }>
+            });
+          }}>
           <Icon name="arrow-back" size={30} color="#fff" />
         </TouchableOpacity>
       ),
@@ -127,18 +132,23 @@ const Announcements = ({navigation, route}) => {
                     ann={announcement}
                     seq={index}
                     len={announcements.length}
+                    showNewBadge={
+                      parseInt(announcement.publishedDate) >
+                      parseInt(lastOpenValue)
+                    }
+                    lastOpenValue={lastOpenValue}
                   />
                 ))}
-            <View style={{height: 50, backgroundColor: '#fff'}} />
+            <View style={{height: 100, backgroundColor: '#fff'}} />
           </>
         ) : (
-          <>
+          <View style={{height: Dimensions.get('window').height}}>
             <ActivityIndicator
               size="large"
               color="#2e3e7e"
               style={{marginTop: Dimensions.get('window').height / 2 - 50}}
             />
-          </>
+          </View>
         )}
       </View>
     </ScrollView>
@@ -151,7 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#fff',
-    height: Dimensions.get('window').height,
   },
 });
 

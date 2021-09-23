@@ -41,7 +41,7 @@ const HomeScreen = ({navigation, route}) => {
 
   const preloadWebviews = async () => {
     await getWebviews().then(data => {
-      console.log('Webview API Data : ', data);
+      // console.log('Webview API Data : ', data);
       if (data.error) {
         toast('Unable to fetch webviews', {
           type: 'error',
@@ -64,22 +64,38 @@ const HomeScreen = ({navigation, route}) => {
     <>
       <ScrollView>
         <View style={styles.container}>
-          <Header navigation={navigation} route={route} />
-          <View style={{height: 60}}></View>
+          {webviews.length > 1 ? (
+            <>
+              <Header navigation={navigation} route={route} />
+              <View style={{height: 60, backgroundColor: '#fff'}}></View>
 
-          {webviews.map((item, index) => (
-            <GeneralCard
-              key={index}
-              cardName={item.cardName}
-              color={item.colorCode}
-              imageName={item.webImage}
-              navigation={navigation}
-              webLink={item.webLink}
-            />
-          ))}
+              {webviews.map((item, index) => (
+                <GeneralCard
+                  key={index}
+                  cardName={item.cardName}
+                  color={item.colorCode}
+                  imageName={item.webImage}
+                  navigation={navigation}
+                  webLink={item.webLink}
+                />
+              ))}
+              <View style={{height: 100}}></View>
+            </>
+          ) : (
+            <>
+              <Header navigation={navigation} route={route} />
+              <View style={{height: 60, backgroundColor: '#fff'}}></View>
+
+              <View
+                style={{
+                  width: '100%',
+                  height: Dimensions.get('window').height,
+                  backgroundColor: '#fff',
+                  // borderWidth: 1,
+                }}></View>
+            </>
+          )}
         </View>
-
-        <View style={{height: 100, backgroundColor: '#fff'}}></View>
       </ScrollView>
       <RegisterFab navigation={navigation} />
     </>
@@ -92,6 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: '#fff',
+    // height: Dimensions.get('window').height,
   },
   header: {
     flexDirection: 'row',
