@@ -50,7 +50,7 @@ const HomeScreen = ({navigation, route}) => {
         // const sortedData = data.sort((a, b) =>
         //   a.homeNumber > b.homeNumber ? 1 : -1
         // );
-        var arr = data.filter(w => w.priority > 0 && w.cardName !== 'Media11');
+        var arr = data.filter(w => w.priority > 0);
         setWebviews(arr);
       }
     });

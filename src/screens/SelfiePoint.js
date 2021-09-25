@@ -107,29 +107,44 @@ const MaskImage = ({image3}) => {
 
   console.log('Mask Image', image3);
   const image1 =
-    'https://firebasestorage.googleapis.com/v0/b/ssip-final.appspot.com/o/Sports_Week%2FIMG_20210816_155623_1629218236127.jpg?alt=media&token=122ff9f3-abda-4c84-9818-e77d8195a102';
+    'https://firebasestorage.googleapis.com/v0/b/ssip-final.appspot.com/o/Sports_Week%2Fdummy2.png?alt=media&token=0538943a-5636-4e96-9b1c-962541bdc056';
   return (
     <>
+      <View
+        style={{
+          marginTop: 40,
+          width: Dimensions.get('window').width,
+          padding: 10,
+          height: 50,
+          borderBottomWidth: 1,
+          borderColor: '#000',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginLeft: -13,
+        }}>
+        <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+          Your Selfie Image
+        </Text>
+      </View>
       <View
         style={{
           // borderWidth: 1,
           marginTop: 50,
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: 8,
+          marginLeft: -5,
         }}
         ref={viewRef}
         collapsable={false}>
         <ImageBackground
           source={{uri: image3 ? image3 : image1}}
-          resizeMode="cover"
-          imageStyle="cover"
+          resizeMode="contain"
           style={{height: 350, width: 350}}>
-          <View style={{borderRadius: 8}}>
+          <View style={{borderRadius: 0}}>
             {/* <Text style={styles.text}>Inside</Text> */}
             <Image
-              source={require('../assets/images/template1.png')}
-              style={{height: 350, width: 350, borderRadius: 8}}
+              source={require('../assets/images/template2.png')}
+              style={{height: 350, width: 350}}
             />
           </View>
         </ImageBackground>
@@ -137,7 +152,7 @@ const MaskImage = ({image3}) => {
 
       <View style={[styles.buttonContainer, {borderWidth: 0}]}>
         <TouchableOpacity style={styles.button2} onPress={downloadImage}>
-          <Text style={styles.buttonText2}> Download </Text>
+          <Text style={styles.buttonText2}> Save to device </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button1} onPress={shareImage}>
           <Text style={styles.buttonText1}> Share Image </Text>
@@ -226,7 +241,12 @@ const ImageUploader = ({navigation}) => {
         <Text style={styles.imageUploadTitle}> Upload Your Selfie Image </Text>
         <Text style={styles.imageUploadSubtitle}>
           {' '}
-          Note : Make sure your face is in center of image.
+          <Text style={{fontWeight: 'bold'}}>Note</Text> : Make sure your face
+          is in center of image.
+        </Text>
+        <Text style={[styles.imageUploadSubtitle, {color: '#a00064'}]}>
+          <Text style={{fontWeight: 'bold', color: '#a00064'}}>Tip</Text> : For
+          better results, upload a square image.
         </Text>
         <View style={styles.imageUploadOuter}>
           <View style={styles.imageBox}>
@@ -234,7 +254,7 @@ const ImageUploader = ({navigation}) => {
               <>
                 <Image source={{uri: image}} style={[styles.imageUploadBox]} />
                 <TouchableOpacity
-                  activeOpacity={0.7}
+                  activeOpacity={0.4}
                   style={{
                     height: 30,
                     width: 120,
@@ -273,6 +293,7 @@ const ImageUploader = ({navigation}) => {
                 ) : (
                   <>
                     <TouchableOpacity
+                      activeOpacity={0.5}
                       style={[styles.imageUploadBox, {borderStyle: 'dashed'}]}
                       onPress={() =>
                         Alert.alert(
@@ -313,8 +334,12 @@ const ImageUploader = ({navigation}) => {
             )}
           </View>
         </View>
+        {image ? (
+          <MaskImage image3={image} />
+        ) : (
+          <View style={{height: Dimensions.get('window').height * 0.3}} />
+        )}
       </View>
-      <MaskImage image3={image} />
     </>
   );
 };
@@ -330,7 +355,7 @@ const SelfiePoint = ({navigation}) => {
         <View style={styles.main}>
           <ImageUploader navigation={navigation} />
 
-          <View style={[styles.buttonContainer, {borderWidth: 0}]}>
+          {/* <View style={[styles.buttonContainer, {borderWidth: 0}]}>
             <TouchableOpacity
               style={styles.button2}
               onPress={() =>
@@ -366,7 +391,7 @@ const SelfiePoint = ({navigation}) => {
               }}>
               <Text style={styles.buttonText1}> Save Image </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <View style={{height: 50}} />
         </View>
@@ -381,6 +406,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: '#fff',
+    // height: Dimensions.get('window').height,
   },
   container1: {
     // flex: 1,
