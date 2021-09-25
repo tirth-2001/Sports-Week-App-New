@@ -13,6 +13,7 @@ import RegisterUser from './screens/RegisterUser';
 import Announcements from './screens/Announcements';
 import RegisterSuccess from './screens/RegisterSuccess';
 import SelfiePoint from './screens/SelfiePoint';
+import App from './App';
 
 const Stack = createNativeStackNavigator();
 const Routes = ({navigation}) => {
