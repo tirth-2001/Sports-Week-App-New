@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 const GeneralCard = ({webLink, cardName, color, imageName, navigation}) => {
-  console.log(webLink, '->', cardName);
+  // console.log(webLink, '->', cardName);
   return (
     <TouchableOpacity
       onPress={() => {

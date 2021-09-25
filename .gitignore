@@ -1,8 +1,11 @@
 # OSX
 #
+/android/*.hprof
 .DS_Store
 
 *.txt
+*.hprof
+
 
 # Xcode
 #
@@ -30,6 +33,9 @@ build/
 .gradle
 local.properties
 *.iml
+
+android/
+*.hprof
 
 # node.js
 #

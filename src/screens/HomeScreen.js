@@ -10,13 +10,9 @@ import {
   Share,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Badge} from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import moment from 'moment';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 
 import GeneralCard from '../components/GeneralCard';
-import {dataList} from '../utils/dataList';
-import {announceList} from '../utils/announceList';
 import Header from '../components/Header';
 
 import {getWebviews} from '../admin/WebviewApi';
@@ -39,6 +35,9 @@ const RegisterFab = ({navigation}) => {
 const HomeScreen = ({navigation, route}) => {
   const [webviews, setWebviews] = useState([]);
 
+  // make a array of 6 numbers with name dummyArray
+  const dummyArray = Array.from({length: 6}, (v, k) => k);
+
   const preloadWebviews = async () => {
     await getWebviews().then(data => {
       // console.log('Webview API Data : ', data);
@@ -51,7 +50,8 @@ const HomeScreen = ({navigation, route}) => {
         // const sortedData = data.sort((a, b) =>
         //   a.homeNumber > b.homeNumber ? 1 : -1
         // );
-        setWebviews(data);
+        var arr = data.filter(w => w.priority > 0 && w.cardName !== 'Media11');
+        setWebviews(arr);
       }
     });
   };
@@ -86,12 +86,36 @@ const HomeScreen = ({navigation, route}) => {
               <Header navigation={navigation} route={route} />
               <View style={{height: 60, backgroundColor: '#fff'}}></View>
 
+              <SkeletonContent
+                containerStyle={styles.container1}
+                isLoading={true}
+                boneColor="#f0f0f0"
+                highlightColor="#e8e8e8"
+                layout={dummyArray.map(item => ({
+                  key: item,
+                  width: Dimensions.get('window').width - 40,
+                  height: 150,
+                  borderRadius: 12,
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  marginVertical: 15,
+                  // shadowColor: '#000',
+                  // shadowOffset: {
+                  //   width: 0,
+                  //   height: 2,
+                  // },
+                  // shadowOpacity: 0.25,
+                  // shadowRadius: 3.84,
+                  // elevation: 8,
+                  borderWidth: 0,
+                }))}></SkeletonContent>
               <View
                 style={{
                   width: '100%',
-                  height: Dimensions.get('window').height,
+                  // height: Dimensions.get('window').height,
+                  height: 80,
                   backgroundColor: '#fff',
-                  // borderWidth: 1,
+                  borderWidth: 0,
                 }}></View>
             </>
           )}
@@ -109,6 +133,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     // height: Dimensions.get('window').height,
+  },
+  container1: {
+    // flex: 1,
+    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',

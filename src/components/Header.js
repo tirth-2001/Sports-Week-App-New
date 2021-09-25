@@ -100,7 +100,8 @@ const Header = ({route, navigation}) => {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: 'Shahibaug Green Sports Week - \n\nDownload this app now...',
+        message:
+          'Shahibaug Green Sports Week 🏅\nMobile App 📱 \n\nDownload this app now... 👇 \n\nGoogle Playstore Link : \nhttps://play.google.com/store/apps/details?id=com.sportsweekapp',
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
