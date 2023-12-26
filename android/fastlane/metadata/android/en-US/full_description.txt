@@ -1,5 +1,0 @@
-Special App for Shahibaug Greens Sports Week. Users can Register themselves for the any sports. They can invite their friends to join the event. They can get the list of the registered players and which sports they are playing.
-
-Players can also see list of Sports and Games which are available in the event. They can also view Today's Schedule of the event which includes which sports are playing, when and between whom.
-
-Players can also click Selfie from the app, set a fancy background and share it with their friends. You will also get notification of all major events of tournament like Winning Player, Match Timing etc. So what are you waiting for? Download the app from the playstore now!
