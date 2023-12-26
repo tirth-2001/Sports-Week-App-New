@@ -1,5 +1,3 @@
-/*eslint-disable*/
-
 import {API} from '../config/backend';
 
 //get all webviews

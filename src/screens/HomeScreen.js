@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -7,10 +8,9 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  Share,
+  ActivityIndicator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+// import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 
 import GeneralCard from '../components/GeneralCard';
 import Header from '../components/Header';
@@ -36,29 +36,21 @@ const HomeScreen = ({navigation, route}) => {
   const [webviews, setWebviews] = useState([]);
 
   // make a array of 6 numbers with name dummyArray
-  const dummyArray = Array.from({length: 6}, (v, k) => k);
-
   const preloadWebviews = async () => {
-    await getWebviews().then(data => {
-      // console.log('Webview API Data : ', data);
-      if (data.error) {
-        toast('Unable to fetch webviews', {
-          type: 'error',
-        });
-      } else {
-        // sort data by homeNumber key
-        // const sortedData = data.sort((a, b) =>
-        //   a.homeNumber > b.homeNumber ? 1 : -1
-        // );
-        var arr = data.filter(w => w.priority > 0);
-        setWebviews(arr);
-      }
-    });
+    try {
+      const data = await getWebviews();
+      var webviewData = data.filter(w => w.priority > 0);
+      setWebviews(webviewData);
+    } catch (error) {
+      console.log('error fetching webviews');
+    }
   };
 
   useEffect(() => {
     preloadWebviews();
   }, []);
+
+  console.log('webviews', webviews);
 
   return (
     <>
@@ -67,7 +59,7 @@ const HomeScreen = ({navigation, route}) => {
           {webviews.length > 1 ? (
             <>
               <Header navigation={navigation} route={route} />
-              <View style={{height: 60, backgroundColor: '#fff'}}></View>
+              <View style={{height: 60, backgroundColor: '#fff'}} />
 
               {webviews.map((item, index) => (
                 <GeneralCard
@@ -79,36 +71,13 @@ const HomeScreen = ({navigation, route}) => {
                   webLink={item.webLink}
                 />
               ))}
-              <View style={{height: 100}}></View>
+              <View style={{height: 100}} />
             </>
           ) : (
             <>
               <Header navigation={navigation} route={route} />
-              <View style={{height: 60, backgroundColor: '#fff'}}></View>
+              <View style={{height: 60, backgroundColor: '#fff'}} />
 
-              <SkeletonContent
-                containerStyle={styles.container1}
-                isLoading={true}
-                boneColor="#f0f0f0"
-                highlightColor="#e8e8e8"
-                layout={dummyArray.map(item => ({
-                  key: item,
-                  width: Dimensions.get('window').width - 40,
-                  height: 150,
-                  borderRadius: 12,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  marginVertical: 15,
-                  // shadowColor: '#000',
-                  // shadowOffset: {
-                  //   width: 0,
-                  //   height: 2,
-                  // },
-                  // shadowOpacity: 0.25,
-                  // shadowRadius: 3.84,
-                  // elevation: 8,
-                  borderWidth: 0,
-                }))}></SkeletonContent>
               <View
                 style={{
                   width: '100%',
@@ -116,7 +85,9 @@ const HomeScreen = ({navigation, route}) => {
                   height: 80,
                   backgroundColor: '#fff',
                   borderWidth: 0,
-                }}></View>
+                }}>
+                <ActivityIndicator size={'large'} color={'#2e3e7e'} />
+              </View>
             </>
           )}
         </View>

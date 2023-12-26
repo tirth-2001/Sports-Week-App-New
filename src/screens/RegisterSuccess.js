@@ -1,10 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity, Dimensions} from 'react-native';
-
-import Icon from 'react-native-vector-icons/Ionicons';
+import React from 'react';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
 const RegisterSuccess = ({navigation}) => {
-  const [confirmLogout, setConfirmLogout] = useState(false);
   return (
     <View style={styles.container}>
       <View style={styles.first}>
@@ -14,13 +11,13 @@ const RegisterSuccess = ({navigation}) => {
         />
       </View>
       <View style={styles.main}>
-          <View style={styles.imageBox}>
-            <Image
-              style={styles.image}
-              source={require('../assets/images/check.png')}
-              size={50}
-            />
-          </View>
+        <View style={styles.imageBox}>
+          <Image
+            style={styles.image}
+            source={require('../assets/images/check.png')}
+            size={50}
+          />
+        </View>
         <View style={styles.logoutBox}>
           <Text style={styles.logoutTitle}>
             Your details are saved successfully!
@@ -54,7 +51,6 @@ const RegisterSuccess = ({navigation}) => {
                 Go to Home Screen
               </Text>
             </TouchableOpacity>
-            
           </View>
         </View>
       </View>
@@ -86,7 +82,6 @@ const styles = StyleSheet.create({
     height: 70,
     width: 280,
     marginTop: 10,
-
   },
   imageBox: {
     borderWidth: 1,
@@ -102,7 +97,7 @@ const styles = StyleSheet.create({
     height: 95,
     width: 95,
     borderRadius: 60,
-    margin:5
+    margin: 5,
   },
 
   button: {
@@ -110,17 +105,17 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 23,
     backgroundColor: '#2e3e7e',
-    
+
     paddingHorizontal: 0,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
     marginTop: 30,
 
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
-	    width: 0,
-	    height: 1,
+      width: 0,
+      height: 1,
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
@@ -148,11 +143,9 @@ const styles = StyleSheet.create({
   },
   logoutTitle: {
     fontSize: 16,
-    color: '#000',
     fontWeight: 'bold',
     color: '#7f7f7f',
   },
-  
 });
 
 export default RegisterSuccess;

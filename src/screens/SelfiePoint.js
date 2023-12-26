@@ -5,7 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TextInput,
   Dimensions,
   Alert,
   ActivityIndicator,
@@ -16,7 +15,7 @@ import {
 } from 'react-native';
 
 import {captureRef} from 'react-native-view-shot';
-import CameraRoll from '@react-native-community/cameraroll';
+import {CameraRoll} from '@react-native-camera-roll/camera-roll';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -350,7 +349,7 @@ const SelfiePoint = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={styles.first}></View>
+        <View style={styles.first} />
 
         <View style={styles.main}>
           <ImageUploader navigation={navigation} />
