@@ -31,7 +31,7 @@ pipeline {
     stage('Install Fastlane') {
       steps {
         script {
-          sh 'sudo gem install fastlane -NV'
+          sh 'gem install fastlane -NV'
         }
       }
     }
