@@ -1,6 +1,8 @@
 pipeline {
   agent any
 
+  tools {nodejs "Node_18"}
+
   environment {
     PATH = "$PATH:/usr/local/bin" // Ensure Fastlane is in the PATH
   }
