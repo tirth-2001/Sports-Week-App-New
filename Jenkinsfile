@@ -17,6 +17,8 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         script {
+          // Use the configured NodeJS installation
+          env.PATH = "${tool 'Node_18'}/bin:$PATH"
           sh 'npm list -g'
           sh 'npm i -g yarn'
           sh 'yarn install'
