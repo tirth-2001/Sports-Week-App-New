@@ -21,12 +21,10 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta_crashlytics do
+  desc "Generate APK"
+  lane :generate_apk do
     gradle(task: "clean assembleRelease")
-    crashlytics
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+    sh "echo 'assembleRelease completed'"
   end
 
   # desc "Deploy a new version to the Google Play"

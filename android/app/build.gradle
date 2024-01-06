@@ -117,7 +117,7 @@ android {
             // see https://reactnative.dev/docs/signed-apk-android.
 
             // signingConfig removed, read https://docs.microsoft.com/en-us/appcenter/build/android/code-signing
-            // signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
