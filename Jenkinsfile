@@ -17,6 +17,8 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         script {
+          sh 'npm list -g'
+          sh 'npm i -g yarn'
           sh 'yarn install'
         }
       }
